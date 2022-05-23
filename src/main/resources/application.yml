@@ -1,0 +1,5 @@
+app:
+  jwt:
+    secret: test
+    #expiration time in seconds
+    expiration: 86400
