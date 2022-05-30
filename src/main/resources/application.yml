@@ -3,3 +3,15 @@ app:
     secret: test
     #expiration time in seconds
     expiration: 86400
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  datasource:
+    url: jdbc:mysql://localhost:3306/java_sql_notifier?useSSL=false
+    username: root
+    password: pwd

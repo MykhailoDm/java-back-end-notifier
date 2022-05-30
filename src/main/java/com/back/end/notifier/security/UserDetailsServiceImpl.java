@@ -23,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(String.format("User with username: %s", username), HttpStatus.UNAUTHORIZED));
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("User with username: %s", username)));
         return UserMapper.userToUserDetails(user);
     }
 }
