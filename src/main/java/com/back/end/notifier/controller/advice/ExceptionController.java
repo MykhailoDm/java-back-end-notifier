@@ -1,8 +1,10 @@
 package com.back.end.notifier.controller.advice;
 
 import com.back.end.notifier.dto.ExceptionStatusBodyResponse;
+import com.back.end.notifier.exception.InvalidPasswordException;
 import com.back.end.notifier.exception.MasterStatusCodeException;
 import com.back.end.notifier.exception.UserAlreadyExistsException;
+import com.back.end.notifier.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,6 +15,16 @@ public class ExceptionController {
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<ExceptionStatusBodyResponse> userAlreadyExistsException(UserAlreadyExistsException e) {
+        return handleStatusCodeExceptions(e);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ExceptionStatusBodyResponse> userNotFoundException(UserNotFoundException e) {
+        return handleStatusCodeExceptions(e);
+    }
+
+    @ExceptionHandler(InvalidPasswordException.class)
+    public ResponseEntity<ExceptionStatusBodyResponse> invalidPasswordException(InvalidPasswordException e) {
         return handleStatusCodeExceptions(e);
     }
 

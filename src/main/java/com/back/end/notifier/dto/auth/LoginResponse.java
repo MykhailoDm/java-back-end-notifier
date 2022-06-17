@@ -16,4 +16,9 @@ public class LoginResponse {
     private String token;
     @JsonProperty("timestamp")
     private Instant timestamp;
+
+    public LoginResponse(String token) {
+        this.token = token;
+        this.timestamp = Instant.now();
+    }
 }
