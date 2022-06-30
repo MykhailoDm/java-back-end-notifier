@@ -1,8 +1,8 @@
 app:
   jwt:
     secret: test
-    #expiration time in seconds
-    expiration: 86400
+    #expiration time in milliseconds
+    expiration: 36000000
 
 spring:
   jpa:
@@ -12,6 +12,6 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
   datasource:
-    url: jdbc:mysql://localhost:3306/java_sql_notifier?useSSL=false
+    url: jdbc:mysql://localhost:3306/java_sql_notifier?useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: pwd

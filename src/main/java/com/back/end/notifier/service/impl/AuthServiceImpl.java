@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 
@@ -69,6 +70,6 @@ public class AuthServiceImpl implements AuthService {
 
     private User createUserBySignupRequest(SignupRequest signupRequest) {
         Role role = roleRepository.findByUserRole(UserRole.ROLE_USER);
-        return new User(null, signupRequest.getUsername(), passwordEncoder.encode(signupRequest.getPassword()), signupRequest.getEmail(), Set.of(role));
+        return new User(null, signupRequest.getUsername(), passwordEncoder.encode(signupRequest.getPassword()), signupRequest.getEmail(), Set.of(role), Collections.emptyList());
     }
 }
