@@ -5,6 +5,7 @@ import com.back.end.notifier.dto.notification.NotificationResponse;
 import com.back.end.notifier.entity.Notification;
 import com.back.end.notifier.entity.User;
 import com.back.end.notifier.exception.BadRequestException;
+import com.back.end.notifier.exception.NotFoundException;
 import com.back.end.notifier.exception.UserNotFoundException;
 import com.back.end.notifier.mapper.NotificationMapper;
 import com.back.end.notifier.repo.NotificationRepository;
@@ -12,6 +13,7 @@ import com.back.end.notifier.repo.UserRepository;
 import com.back.end.notifier.service.NotificationService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,8 +54,12 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public NotificationResponse deleteNotification(String username) {
-        return null;
+    public void deleteNotification(Long id) {
+        try {
+            notificationRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new NotFoundException("No notification with id: " + id);
+        }
     }
 
     @Override

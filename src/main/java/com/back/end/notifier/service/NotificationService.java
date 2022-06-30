@@ -11,7 +11,7 @@ public interface NotificationService {
 
     NotificationResponse createNotification(NotificationRequest notificationRequest, Long userId);
 
-    NotificationResponse deleteNotification(String username);
+    void deleteNotification(Long id);
 
     NotificationResponse updateNotification(NotificationRequest notificationRequest);
 
