@@ -15,16 +15,19 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
+@Transactional
 public class NotificationServiceImpl implements NotificationService {
 
     private final NotificationRepository notificationRepository;
     private final UserRepository userRepository;
+
+    private static final String NO_NOTIFICATION_FOUND_BY_ID_TEMPLATE = "No notification was found with id %s";
 
     @Autowired
     public NotificationServiceImpl(NotificationRepository notificationRepository, UserRepository userRepository) {
@@ -37,6 +40,13 @@ public class NotificationServiceImpl implements NotificationService {
         return notificationRepository.findAllByUserId(id).stream()
                 .map(NotificationMapper::notificationToNotificationResponse)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public NotificationResponse getNotificationById(Long id) {
+        Notification notification = notificationRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(String.format(NO_NOTIFICATION_FOUND_BY_ID_TEMPLATE, id)));
+        return NotificationMapper.notificationToNotificationResponse(notification);
     }
 
     @Override
@@ -58,12 +68,16 @@ public class NotificationServiceImpl implements NotificationService {
         try {
             notificationRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new NotFoundException("No notification with id: " + id);
+            throw new NotFoundException(String.format(NO_NOTIFICATION_FOUND_BY_ID_TEMPLATE, id));
         }
     }
 
     @Override
-    public NotificationResponse updateNotification(NotificationRequest notification) {
-        return null;
+    public NotificationResponse updateNotification(NotificationRequest notification, Long id) {
+        Notification notificationEntity = notificationRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(String.format(NO_NOTIFICATION_FOUND_BY_ID_TEMPLATE, id)));
+        notificationEntity.setName(notification.getName());
+        notificationEntity.setTitle(notification.getTitle());
+        return NotificationMapper.notificationToNotificationResponse(notificationRepository.save(notificationEntity));
     }
 }

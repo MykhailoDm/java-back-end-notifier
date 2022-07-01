@@ -27,9 +27,19 @@ public class NotificationController {
         return notificationService.getNotificationsForUser(userDetails.getId());
     }
 
+    @GetMapping("/{id}")
+    public NotificationResponse getNotifications(@PathVariable Long id) {
+        return notificationService.getNotificationById(id);
+    }
+
     @PostMapping
     public NotificationResponse createNotification(@RequestBody NotificationRequest notificationRequest, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return notificationService.createNotification(notificationRequest, userDetails.getId());
+    }
+
+    @PutMapping("/{id}")
+    public NotificationResponse updateNotification(@RequestBody NotificationRequest notificationRequest, @PathVariable Long id) {
+        return notificationService.updateNotification(notificationRequest, id);
     }
 
     @DeleteMapping("/{id}")
